@@ -5,7 +5,7 @@
 }
 
 body {
-    background: orangered;
+    background: gray;
 }
 
 .row {
@@ -32,7 +32,7 @@ img {
 }
 
 .btn1:hover {
-    background: white;
+    background: red;
     border: 1px solid;
-    color: black;
+    color: white;
 }
