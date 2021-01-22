@@ -12,7 +12,7 @@
 	}
 	else
 	{
-		$sql = "SELECT ID,FirstName,LastName FROM Users where Login='" . $inData["login"] . "' and Password='" . $inData["password"] . "'";
+		$sql = "SELECT ID,FirstName,LastName FROM Users where Login='" . $indata["login"] . "' and Password='" . $indata["password"] . "'";
 		$result = $connection->query($sql);
 
 		if ($result->num_rows > 0)
