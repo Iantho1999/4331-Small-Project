@@ -5,26 +5,23 @@
 	$firstName = "";
 	$lastName = "";
 
-	// TODO: fill in database name, username, and password 
-	$connection = new mysqli("localhost", "db_username", "db_password", "db");
+	$connection = new mysqli("localhost", "TheBeast", "WeLoveCOP4331", "COP4331");
 	if ($connection->connect_error)
 	{
 		returnWithError( $connection->connect_error );
 	}
 	else
 	{
-		// TODO: update according to database column names (Login/Username, Password) and client-side JSON names (Login/Username, Password)
-		$sql = "SELECT ID,firstName,lastName FROM Users where Login='" . $inData["login"] . "' and Password='" . $inData["password"] . "'";
+		$sql = "SELECT ID,FirstName,LastName FROM Users where Login='" . $inData["login"] . "' and Password='" . $inData["password"] . "'";
 		$result = $connection->query($sql);
 
 		if ($result->num_rows > 0)
 		{
 			$row = $result->fetch_assoc();
 
-			// TODO: update according to database column names (ID, firstName, lastName)
 			$id = $row["ID"];
-			$firstName = $row["firstName"];
-			$lastName = $row["lastName"];
+			$firstName = $row["FirstName"];
+			$lastName = $row["LastName"];
 
 			returnWithInfo($id, $firstName, $lastName);
 		}

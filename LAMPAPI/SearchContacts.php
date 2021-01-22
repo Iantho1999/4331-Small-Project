@@ -4,15 +4,14 @@
 	$searchResults = "";
 	$searchCount = 0;
 
-	// TODO: fill in database name, username, and password 
-	$connection = new mysqli("localhost", "db_username", "db_password", "db");
+	$connection = new mysqli("localhost", "TheBeast", "WeLoveCOP4331", "COP4331");
 	if ($connection->connect_error)
 	{
 		returnWithError( $connection->connect_error );
 	}
 	else
 	{
-		// TODO: update according to database column names (ID, FirstName, LastName, PhoneNumber, Email) and client-side JSON names (userId, search)
+		// TODO: update according to client-side JSON names (userId, search)
 		$sql = "SELECT * from Contacts where ID=" . $inData["userId"] . " and (FirstName like '%" . $inData["search"] . "%' or LastName like '%" . $inData["search"] . "%' or PhoneNumber like '%" . $inData["search"] . "%' or Email like '%" . $inData["search"] . "%')";
 		$result = $connection->query($sql);
 
