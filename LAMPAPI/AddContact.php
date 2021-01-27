@@ -16,14 +16,25 @@
 	}
 	else
 	{
-		// Add contact to database
-		$sql = "INSERT into Contacts (ID,FirstName,LastName,PhoneNumber,Email) VALUES ({$userId}, '{$firstName}', '{$lastName}', '{$phoneNumber}', '{$email}')";
+		// Check that user with given user ID exists
+		$sql = "SELECT * from Contacts where ID={$userId}";
 		$result = $db->query($sql);
 
-		if ($result)
-			returnWithError("");
+		if ($result->num_rows > 0)
+		{
+			// Add contact to database
+			$sql = "INSERT into Contacts (ID,FirstName,LastName,PhoneNumber,Email) VALUES ({$userId}, '{$firstName}', '{$lastName}', '{$phoneNumber}', '{$email}')";
+			$result = $db->query($sql);
+
+			if ($result)
+				returnWithError("");
+			else
+				returnWithError( $db->error );
+		}
 		else
-			returnWithError( $db->error );
+		{
+			returnWithError( "Invalid User ID" );
+		}
 
 		$db->close();
 	}
