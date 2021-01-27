@@ -1,18 +1,22 @@
 <?php
 	$indata = getRequestInfo();
 
-	$searchResults = array();
-	$searchCount = 0;
+	// API Parameter Variables
+	$search = $indata["search"];
+	$userId = $indata["userId"];
 
-	$connection = new mysqli("localhost", "TheBeast", "WeLoveCOP4331", "COP4331");
-	if ($connection->connect_error)
+	// API Response Variables
+	$searchResults = [];
+
+	$db = mysqli_connect("localhost", "TheBeast", "WeLoveCOP4331", "COP4331");
+	if ($db->connect_error)
 	{
-		returnWithError( $connection->connect_error );
+		returnWithError( $db->connect_error );
 	}
 	else
 	{
-		$sql = "SELECT * from Contacts where ID=" . $indata["userId"] . " and (FirstName like '%" . $indata["search"] . "%' or LastName like '%" . $indata["search"] . "%' or PhoneNumber like '%" . $indata["search"] . "%' or Email like '%" . $indata["search"] . "%')";
-		$result = $connection->query($sql);
+		$sql = "SELECT * from Contacts where ID={$userId} and (FirstName like '%{$search}%' or LastName like '%{$search}%' or PhoneNumber like '%{$search}%' or Email like '%{$search}%')";
+		$result = $db->query($sql);
 
 		if ($result->num_rows > 0)
 		{
@@ -23,8 +27,6 @@
 					'lastName' => $row["LastName"],
 					'phoneNumber' => $row["PhoneNumber"],
 					'email' => $row["Email"] );
-
-				$searchCount++;
 			}
 
 			returnWithInfo( $searchResults );
@@ -34,7 +36,7 @@
 			returnWithError( "No Records Found" );
 		}
 
-		$connection->close();
+		$db->close();
 	}
 
 
@@ -51,13 +53,13 @@
 
 	function returnWithError( $error )
 	{
-		$retValue = json_encode(array( 'results' => array(), 'error' => $error ));
+		$retValue = json_encode( ['results' => [], 'error' => $error] );
 		sendResultInfoAsJson( $retValue );
 	}
 
 	function returnWithInfo( $searchResults )
 	{
-		$retValue = json_encode(array( 'results' => $searchResults, 'error' => "" ));
+		$retValue = json_encode( ['results' => $searchResults, 'error' => ""] );
 		sendResultInfoAsJson( $retValue );
 	}
 ?>
