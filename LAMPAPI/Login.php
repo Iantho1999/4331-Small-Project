@@ -18,13 +18,14 @@
 			if ($db->connect_error)
 				throw new Exception( $db->connect_error );
 
-		// Search & return user that matches given login and password
+		// Search user ID that matches given login and password
 		$sql = "SELECT ID,FirstName,LastName FROM Users where Login='{$login}' and Password='{$password}'";
 		$result = $db->query($sql);
 
 			if ($result->num_rows == 0)
 				throw new Exception( "No Records Found" );
 
+		// Return user ID
 		$row = $result->fetch_assoc();
 		$id = $row["ID"];
 		$firstName = $row["FirstName"];

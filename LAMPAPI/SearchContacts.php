@@ -23,7 +23,7 @@
 			if ($result->num_rows == 0)
 				throw new Exception( "No Records Found" );
 
-		// Compile and return search results
+		// Compile search results
 		while ($row = $result->fetch_assoc())
 		{
 			$searchResults[] = array(
@@ -33,6 +33,7 @@
 				'email' => $row["Email"] );
 		}
 
+		// Return search results
 		returnWithInfo($searchResults);
 
 		// Close database connection

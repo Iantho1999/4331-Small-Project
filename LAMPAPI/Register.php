@@ -32,14 +32,14 @@
 			if (!$result)
 				throw new Exception( $db->error );
 
-		// Search & return ID of new user
+		// Search ID of new user
 		$sql = "SELECT ID from Users where Login='{$login}' and Password='{$password}'";
 		$result = $db->query($sql);
 
 			if ($result->num_rows == 0)
 				throw new Exception( "No Records Found" );
 
-		// Return ID of new user
+		// Return ID
 		$row = $result->fetch_assoc();
 		$id = $row["ID"];
 
