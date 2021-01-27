@@ -1,7 +1,7 @@
 <?php
 	$indata = getRequestInfo();
 
-	$searchResults = "";
+	$searchResults = array();
 	$searchCount = 0;
 
 	$connection = new mysqli("localhost", "TheBeast", "WeLoveCOP4331", "COP4331");
@@ -11,7 +11,6 @@
 	}
 	else
 	{
-		// TODO: update according to client-side JSON names (userId, search)
 		$sql = "SELECT * from Contacts where ID=" . $indata["userId"] . " and (FirstName like '%" . $indata["search"] . "%' or LastName like '%" . $indata["search"] . "%' or PhoneNumber like '%" . $indata["search"] . "%' or Email like '%" . $indata["search"] . "%')";
 		$result = $connection->query($sql);
 
@@ -19,13 +18,12 @@
 		{
 			while ($row = $result->fetch_assoc())
 			{
-				if ( $searchCount > 0 )
-				{
-					$searchResults .= ",";
-				}
+				$searchResults[] = array(
+					'firstName' => $row["FirstName"],
+					'lastName' => $row["LastName"],
+					'phoneNumber' => $row["PhoneNumber"],
+					'email' => $row["Email"] );
 
-				// TODO: update according to database column names (FirstName, LastName, PhoneNumber, Email)
-				$searchResults .= '{"firstName":"' . $row["FirstName"] . '", "lastName":"' . $row["LastName"] . '", "phoneNumber":"' . $row["PhoneNumber"] . '", "email":"' . $row["Email"] . '"}';
 				$searchCount++;
 			}
 
@@ -53,15 +51,13 @@
 
 	function returnWithError( $error )
 	{
-		// TODO: update according to client-side JSON names
-		$retValue = '{"results":[], "error":"' . $error . '"}';
+		$retValue = json_encode(array( 'results' => array(), 'error' => $error ));
 		sendResultInfoAsJson( $retValue );
 	}
 
 	function returnWithInfo( $searchResults )
 	{
-		// TODO: update according to client-side JSON names
-		$retValue = '{"results":[' . $searchResults . '], "error":""}';
+		$retValue = json_encode(array( 'results' => $searchResults, 'error' => "" ));
 		sendResultInfoAsJson( $retValue );
 	}
 ?>
