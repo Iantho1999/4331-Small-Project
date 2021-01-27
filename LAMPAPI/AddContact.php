@@ -1,33 +1,29 @@
 <?php
 	$indata = getRequestInfo();
 
-	// TODO: update according to client-side JSON names
+	// API Parameter Variables
 	$firstName = $indata["firstName"];
 	$lastName = $indata["lastName"];
 	$phoneNumber = $indata["phoneNumber"];
 	$email = $indata["email"];
 	$userId = $indata["userId"];
 
-	$connection = new mysqli("localhost", "TheBeast", "WeLoveCOP4331", "COP4331");
-	if ($connection->connect_error)
+	$db = mysqli_connect("localhost", "TheBeast", "WeLoveCOP4331", "COP4331");
+	if ($db->connect_error)
 	{
-		returnWithError( $connection->connect_error );
+		returnWithError( $db->connect_error );
 	}
 	else
 	{
-		$sql = "INSERT into Contacts (ID,FirstName,LastName,PhoneNumber,Email) VALUES (" . $userId . ", '" . $firstName . "', '" . $lastName . "', '" . $phoneNumber . "', '" . $email . "')";
-		$result = $connection->query($sql);
+		$sql = "INSERT into Contacts (ID,FirstName,LastName,PhoneNumber,Email) VALUES ({$userId}, '{$firstName}', '{$lastName}', '{$phoneNumber}', '{$email}')";
+		$result = $db->query($sql);
 
-		if ( $result != TRUE )
-		{
-			returnWithError( $connection->error );
-		}
+		if (!$result)
+			returnWithError( $db->error );
 		else
-		{
 			returnWithError("");
-		}
 
-		$connection->close();
+		$db->close();
 	}
 
 
@@ -44,8 +40,7 @@
 
 	function returnWithError( $error )
 	{
-		// TODO: update according to client-side JSON names
-		$retValue = '{"error":"' . $error . '"}';
+		$retValue = json_encode( ['error' => $error] );
 		sendResultInfoAsJson( $retValue );
 	}
 ?>
