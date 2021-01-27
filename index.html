@@ -10,6 +10,8 @@
 
     <title>ChronoKeeper</title>
     <link rel="stylesheet" href="css/stylesheet.css">
+    <script type="text/javascript" src="js/code.js"></script>
+
   </head>
   <body>
 
@@ -27,21 +29,24 @@
               <!-- username -->
               <div class="form-row">
                 <div class="col-lg-7">
-                  <input type="username" placeholder="JohnSmith123" class="form-control my-2">
+                  <input type="username" id="loginName" placeholder="JohnSmith123" class="form-control my-2">
                 </div>
               </div>
               <!-- password -->
               <div class="form-row">
                 <div class="col-lg-7">
-                  <input type="password" placeholder="******" class="form-control">
+                  <input type="password" id="loginPassword" placeholder="******" class="form-control">
                 </div>
               </div>
               <!-- login button -->
               <div class="form-row">
                 <div class="col-lg-7">
-                  <button type="button" class="btn1 mt-3 mb-5">Login</button>
+                  <button type="button" id="loginButton" class="btn1 mt-3 mb-5" onclick="doLogin()">Login</button>
                 </div>
               </div>
+
+              <span id="loginResult"></span>
+
               <!-- register -->  
               <p>Don't have an account? <a href="register.html">Register here</a></p>
             </form>
