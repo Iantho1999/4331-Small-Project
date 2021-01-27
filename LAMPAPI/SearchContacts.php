@@ -1,32 +1,34 @@
 <?php
 	$indata = getRequestInfo();
 
-	$searchResults = "";
-	$searchCount = 0;
+	// API Parameter Variables
+	$search = $indata["search"];
+	$userId = $indata["userId"];
 
-	$connection = new mysqli("localhost", "TheBeast", "WeLoveCOP4331", "COP4331");
-	if ($connection->connect_error)
+	// API Response Variables
+	$searchResults = [];
+
+	// Connect to database
+	$db = mysqli_connect("localhost", "TheBeast", "WeLoveCOP4331", "COP4331");
+	if ($db->connect_error)
 	{
-		returnWithError( $connection->connect_error );
+		returnWithError( $db->connect_error );
 	}
 	else
 	{
-		// TODO: update according to client-side JSON names (userId, search)
-		$sql = "SELECT * from Contacts where ID=" . $indata["userId"] . " and (FirstName like '%" . $indata["search"] . "%' or LastName like '%" . $indata["search"] . "%' or PhoneNumber like '%" . $indata["search"] . "%' or Email like '%" . $indata["search"] . "%')";
-		$result = $connection->query($sql);
+		// Search for contacts that match the given search
+		$sql = "SELECT * from Contacts where ID={$userId} and (FirstName like '%{$search}%' or LastName like '%{$search}%' or PhoneNumber like '%{$search}%' or Email like '%{$search}%')";
+		$result = $db->query($sql);
 
 		if ($result->num_rows > 0)
 		{
 			while ($row = $result->fetch_assoc())
 			{
-				if ( $searchCount > 0 )
-				{
-					$searchResults .= ",";
-				}
-
-				// TODO: update according to database column names (FirstName, LastName, PhoneNumber, Email)
-				$searchResults .= '{"firstName":"' . $row["FirstName"] . '", "lastName":"' . $row["LastName"] . '", "phoneNumber":"' . $row["PhoneNumber"] . '", "email":"' . $row["Email"] . '"}';
-				$searchCount++;
+				$searchResults[] = array(
+					'firstName' => $row["FirstName"],
+					'lastName' => $row["LastName"],
+					'phoneNumber' => $row["PhoneNumber"],
+					'email' => $row["Email"] );
 			}
 
 			returnWithInfo( $searchResults );
@@ -36,7 +38,7 @@
 			returnWithError( "No Records Found" );
 		}
 
-		$connection->close();
+		$db->close();
 	}
 
 
@@ -53,15 +55,13 @@
 
 	function returnWithError( $error )
 	{
-		// TODO: update according to client-side JSON names
-		$retValue = '{"results":[], "error":"' . $error . '"}';
+		$retValue = json_encode( ['results' => [], 'error' => $error] );
 		sendResultInfoAsJson( $retValue );
 	}
 
 	function returnWithInfo( $searchResults )
 	{
-		// TODO: update according to client-side JSON names
-		$retValue = '{"results":[' . $searchResults . '], "error":""}';
+		$retValue = json_encode( ['results' => $searchResults, 'error' => ""] );
 		sendResultInfoAsJson( $retValue );
 	}
 ?>

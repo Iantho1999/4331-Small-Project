@@ -1,19 +1,26 @@
 <?php
 	$indata = getRequestInfo();
 
+	// API Parameter Variables
+	$login = $indata["login"];
+	$password = $indata["password"];
+
+	// API Response Variables
 	$id = 0;
 	$firstName = "";
 	$lastName = "";
 
-	$connection = new mysqli("localhost", "TheBeast", "WeLoveCOP4331", "COP4331");
-	if ($connection->connect_error)
+	// Connect to database
+	$db = mysqli_connect("localhost", "TheBeast", "WeLoveCOP4331", "COP4331");
+	if ($db->connect_error)
 	{
-		returnWithError( $connection->connect_error );
+		returnWithError( $db->connect_error );
 	}
 	else
 	{
-		$sql = "SELECT ID,FirstName,LastName FROM Users where Login='" . $indata["login"] . "' and Password='" . $indata["password"] . "'";
-		$result = $connection->query($sql);
+		// Search for user that matches given login and password
+		$sql = "SELECT ID,FirstName,LastName FROM Users where Login='{$login}' and Password='{$password}'";
+		$result = $db->query($sql);
 
 		if ($result->num_rows > 0)
 		{
@@ -30,7 +37,7 @@
 			returnWithError( "No Records Found" );
 		}
 
-		$connection->close();
+		$db->close();
 	}
 
 
@@ -47,15 +54,13 @@
 
 	function returnWithError( $error )
 	{
-		// TODO: update according to client-side JSON names
-		$retValue = '{"id":0, "firstname":"", "lastName":"", "error":"' . $error . '"}';
+		$retValue = json_encode( ['id' => 0, 'firstName' => "", 'lastName' => "", 'error' => $error] );
 		sendResultInfoAsJson( $retValue );
 	}
 
 	function returnWithInfo( $id, $firstName, $lastName )
 	{
-		// TODO: update according to client-side JSON names
-		$retValue = '{"id":' . $id . ', "firstName":"' . $firstName . '", "lastName":"' . $lastName . '", "error":""}';
+		$retValue = json_encode( ['id' => $id, 'firstName' => $firstName, 'lastName' => $lastName, 'error' => ""] );
 		sendResultInfoAsJson( $retValue );
 	}
 ?>
