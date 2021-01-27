@@ -12,6 +12,10 @@
 
 	try
 	{
+		// Check that login & password are non-empty
+		if ($login == "" || $password == "")
+			throw new Exception( "Login/Password Empty");
+		
 		// Connect to database
 		$db = mysqli_connect("localhost", "TheBeast", "WeLoveCOP4331", "COP4331");
 
