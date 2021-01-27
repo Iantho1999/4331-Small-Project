@@ -8,6 +8,7 @@
 	$email = $indata["email"];
 	$userId = $indata["userId"];
 
+	// Connect to database
 	$db = mysqli_connect("localhost", "TheBeast", "WeLoveCOP4331", "COP4331");
 	if ($db->connect_error)
 	{
@@ -15,13 +16,14 @@
 	}
 	else
 	{
+		// Add contact to database
 		$sql = "INSERT into Contacts (ID,FirstName,LastName,PhoneNumber,Email) VALUES ({$userId}, '{$firstName}', '{$lastName}', '{$phoneNumber}', '{$email}')";
 		$result = $db->query($sql);
 
-		if (!$result)
-			returnWithError( $db->error );
-		else
+		if ($result)
 			returnWithError("");
+		else
+			returnWithError( $db->error );
 
 		$db->close();
 	}

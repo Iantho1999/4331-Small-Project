@@ -10,6 +10,7 @@
 	$firstName = "";
 	$lastName = "";
 
+	// Connect to database
 	$db = mysqli_connect("localhost", "TheBeast", "WeLoveCOP4331", "COP4331");
 	if ($db->connect_error)
 	{
@@ -17,6 +18,7 @@
 	}
 	else
 	{
+		// Search for user that matches given login and password
 		$sql = "SELECT ID,FirstName,LastName FROM Users where Login='{$login}' and Password='{$password}'";
 		$result = $db->query($sql);
 

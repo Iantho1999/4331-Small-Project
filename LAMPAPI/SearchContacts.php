@@ -8,6 +8,7 @@
 	// API Response Variables
 	$searchResults = [];
 
+	// Connect to database
 	$db = mysqli_connect("localhost", "TheBeast", "WeLoveCOP4331", "COP4331");
 	if ($db->connect_error)
 	{
@@ -15,6 +16,7 @@
 	}
 	else
 	{
+		// Search for contacts that match the given search
 		$sql = "SELECT * from Contacts where ID={$userId} and (FirstName like '%{$search}%' or LastName like '%{$search}%' or PhoneNumber like '%{$search}%' or Email like '%{$search}%')";
 		$result = $db->query($sql);
 
