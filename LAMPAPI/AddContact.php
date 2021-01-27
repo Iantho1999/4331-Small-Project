@@ -8,37 +8,38 @@
 	$email = $indata["email"];
 	$userId = $indata["userId"];
 
-	// Connect to database
-	$db = mysqli_connect("localhost", "TheBeast", "WeLoveCOP4331", "COP4331");
-	if ($db->connect_error)
+	try
 	{
-		returnWithError( $db->connect_error );
-	}
-	else
-	{
+		// Connect to database
+		$db = mysqli_connect("localhost", "TheBeast", "WeLoveCOP4331", "COP4331");
+
+			if ($db->connect_error)
+				throw new Exception( $db->connect_error );
+
 		// Check that user with given user ID exists
 		$sql = "SELECT * from Contacts where ID={$userId}";
 		$result = $db->query($sql);
 
-		if ($result->num_rows > 0)
-		{
-			// Add contact to database
-			$sql = "INSERT into Contacts (ID,FirstName,LastName,PhoneNumber,Email) VALUES ({$userId}, '{$firstName}', '{$lastName}', '{$phoneNumber}', '{$email}')";
-			$result = $db->query($sql);
+			if ($result->num_rows == 0)
+				throw new Exception( "Invalid User ID" );
 
-			if ($result)
-				returnWithError("");
-			else
-				returnWithError( $db->error );
-		}
-		else
-		{
-			returnWithError( "Invalid User ID" );
-		}
+		// Add contact to database
+		$sql = "INSERT into Contacts (ID,FirstName,LastName,PhoneNumber,Email) VALUES ({$userId}, '{$firstName}', '{$lastName}', '{$phoneNumber}', '{$email}')";
+		$result = $db->query($sql);
 
+			if (!$result)
+				throw newException( $db->error );
+
+		// Return no error
+		returnWithError("");
+
+		// Close database connection
 		$db->close();
 	}
-
+	catch (Exception $exception)
+	{
+		returnWithError( $exception->getMessage() );
+	}
 
 	function getRequestInfo()
 	{

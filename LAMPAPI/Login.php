@@ -10,36 +10,35 @@
 	$firstName = "";
 	$lastName = "";
 
-	// Connect to database
-	$db = mysqli_connect("localhost", "TheBeast", "WeLoveCOP4331", "COP4331");
-	if ($db->connect_error)
+	try
 	{
-		returnWithError( $db->connect_error );
-	}
-	else
-	{
-		// Search for user that matches given login and password
+		// Connect to database
+		$db = mysqli_connect("localhost", "TheBeast", "WeLoveCOP4331", "COP4331");
+	
+			if ($db->connect_error)
+				throw new Exception( $db->connect_error );
+
+		// Search & return user that matches given login and password
 		$sql = "SELECT ID,FirstName,LastName FROM Users where Login='{$login}' and Password='{$password}'";
 		$result = $db->query($sql);
 
-		if ($result->num_rows > 0)
-		{
-			$row = $result->fetch_assoc();
+			if ($result->num_rows == 0)
+				throw new Exception( "No Records Found" );
 
-			$id = $row["ID"];
-			$firstName = $row["FirstName"];
-			$lastName = $row["LastName"];
+		$row = $result->fetch_assoc();
+		$id = $row["ID"];
+		$firstName = $row["FirstName"];
+		$lastName = $row["LastName"];
 
-			returnWithInfo($id, $firstName, $lastName);
-		}
-		else
-		{
-			returnWithError( "No Records Found" );
-		}
+		returnWithInfo($id, $firstName, $lastName);
 
+		// Close database connection
 		$db->close();
 	}
-
+	catch (Exception $exception)
+	{
+		returnWithError( $exception->getMessage() );
+	}
 
 	function getRequestInfo()
 	{
