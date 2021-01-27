@@ -10,54 +10,51 @@
 	// API Response Variables
 	$id = 0;
 
-	// Connect to database
-	$db = mysqli_connect("localhost", "TheBeast", "WeLoveCOP4331", "COP4331");
-	if ($db->connect_error)
+	try
 	{
-		returnWithError( $db->connect_error );
-	}
-	else
-	{
+		// Check that login & password are non-empty
+		if ($login == "" || $password == "")
+			throw new Exception( "Login/Password Empty");
+		
+		// Connect to database
+		$db = mysqli_connect("localhost", "TheBeast", "WeLoveCOP4331", "COP4331");
+
+			if ($db->connect_error)
+				throw new Exception( $db->connect_error );
+
 		// Check that username is not already taken
-		$sql = "SELECT ID,FirstName,LastName FROM Users where Login='{$login}'";
+		$sql = "SELECT ID FROM Users where Login='{$login}'";
 		$result = $db->query($sql);
 
-		if ($result->num_rows == 0)
-		{
-			// Add user to database
-			$sql = "INSERT into Users (FirstName,LastName,Login,Password) VALUES ('{$firstName}', '{$lastName}', '{$login}', '{$password}')";
-			$result = $db->query($sql);
+			if ($result->num_rows > 0)
+				throw new Exception( "User \"{$login}\" Already Exists" );
 
-			if ($result)
-			{
-				// Search for ID of new user
-				$sql = "SELECT ID from Users where Login='{$login}' and Password='{$password}'";
-				$result = $db->query($sql);
+		// Add user to database
+		$sql = "INSERT into Users (FirstName,LastName,Login,Password) VALUES ('{$firstName}', '{$lastName}', '{$login}', '{$password}')";
+		$result = $db->query($sql);
 
-				if ($result->num_rows > 0)
-				{
-					$row = $result->fetch_assoc();
+			if (!$result)
+				throw new Exception( $db->error );
 
-					$id = $row["ID"];
+		// Search ID of new user
+		$sql = "SELECT ID from Users where Login='{$login}' and Password='{$password}'";
+		$result = $db->query($sql);
 
-					returnWithInfo($id);
-				}
-				else
-				{
-					returnWithError( "No Records Found" );
-				}
-			}
-			else
-			{
-				returnWithError( $db->error );
-			}
-		}
-		else
-		{
-			returnWithError( "User \"{$login}\" Already Exists" );
-		}
+			if ($result->num_rows == 0)
+				throw new Exception( "No Records Found" );
 
+		// Return ID
+		$row = $result->fetch_assoc();
+		$id = $row["ID"];
+
+		returnWithInfo($id);
+
+		// Close database connection
 		$db->close();
+	}
+	catch (Exception $exception)
+	{
+		returnWithError( $exception->getMessage() );
 	}
 
 
