@@ -2,11 +2,8 @@
 	$indata = getRequestInfo();
 
 	// API Parameter Variables
-	$search = $indata["search"];
+	$id = $indata["id"];
 	$userId = $indata["userId"];
-
-	// API Response Variables
-	$searchResults = [];
 
 	try
 	{
@@ -16,18 +13,22 @@
 			if ($db->connect_error)
 				throw new Exception( $db->connect_error );
 
-		// Search for contacts that match the given search
-		$sql = "SELECT ID, FirstName, LastName, PhoneNumber, Email from Contacts where userID={$userId} and (FirstName like '%{$search}%' or LastName like '%{$search}%' or PhoneNumber like '%{$search}%' or Email like '%{$search}%')";
+		// Check that contact exists for given user
+		$sql = "SELECT ID from Contacts where ID={$id} and userID={$userId}";
 		$result = $db->query($sql);
 
 			if ($result->num_rows == 0)
 				throw new Exception( "No Records Found" );
 
-		// Compile search results
-		$searchResults = $result->fetch_all(MYSQLI_ASSOC);
+		// Delete contact from database
+		$sql = "DELETE from Contacts where ID={$id} LIMIT 1";
+		$result = $db->query($sql);
 
-		// Return search results
-		returnWithInfo($searchResults);
+			if (!$result)
+				throw new Exception( $db->error );
+
+		// Return no error
+		returnWithError("");
 
 		// Close database connection
 		$db->close();
@@ -50,13 +51,7 @@
 
 	function returnWithError( $error )
 	{
-		$retValue = json_encode( ['results' => [], 'error' => $error] );
-		sendResultInfoAsJson( $retValue );
-	}
-
-	function returnWithInfo( $searchResults )
-	{
-		$retValue = json_encode( ['results' => $searchResults, 'error' => ""] );
+		$retValue = json_encode( ['error' => $error] );
 		sendResultInfoAsJson( $retValue );
 	}
 ?>

@@ -5,6 +5,18 @@ var userId = 0;
 var firstName = "";
 var lastName = "";
 
+var a = document.getElementById ("registerButton");
+if(a){
+	a.addEventListener("click", doRegister, false);
+}
+
+// var b = document.getElementById ("loginButton");
+// if(b){
+// 	b.addEventListener("click", doRegister, false);
+// }
+
+//document.getElementById ("loginButton").addEventListener ("click", doLogin, false);
+
 function doLogin()
 {
     userId = 0;
@@ -13,14 +25,15 @@ function doLogin()
 	
 	var login = document.getElementById("loginName").value;
 	var password = document.getElementById("loginPassword").value;
-//	var hash = md5( password );
+	var hash = md5( password );
 	
 	document.getElementById("loginResult").innerHTML = "";
 
-//	var jsonPayload = '{"login" : "' + login + '", "password" : "' + hash + '"}';
-	var jsonPayload = '{"login" : "' + login + '", "password" : "' + password + '"}';
+	var jsonPayload = '{"login" : "' + login + '", "password" : "' + hash + '"}';
+//	var jsonPayload = '{"login" : "' + login + '", "password" : "' + password + '"}';
 	var url = urlBase + '/Login.' + extension;
 
+	console.log(jsonPayload);
 	var xhr = new XMLHttpRequest();
 	xhr.open("POST", url, false);
 	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
@@ -48,6 +61,42 @@ function doLogin()
 	catch(err)
 	{
 		document.getElementById("loginResult").innerHTML = err.message;
+	}
+
+}
+
+function doRegister()
+{
+    var login = document.getElementById("registerUser").value;
+	var password = document.getElementById("registerPass").value;
+	var first = document.getElementById("registerFirst").value;
+	var last = document.getElementById("registerLast").value;
+	var hash = md5( password );
+	
+	//document.getElementById("loginResult").innerHTML = "";
+
+	var jsonPayload = '{"firstName" : "' + first + '", "lastName" : "' + last + '", "login" : "' + login + '", "password" : "' + hash + '"}';
+//	var jsonPayload = '{"login" : "' + login + '", "password" : "' + password + '"}';
+	var url = urlBase + '/Register.' + extension;
+
+	console.log(jsonPayload);
+	var xhr = new XMLHttpRequest();
+	xhr.open("POST", url, true);
+	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+	try
+	{
+		xhr.onreadystatechange = function()
+		{
+			if (this.readyState == 4 && this.status == 200)
+			{
+				window.location.href = "index.html";
+			}
+		};
+		xhr.send(jsonPayload);
+	}
+	catch(err)
+	{
+		document.getElementById("registerResult").innerHTML = err.message;
 	}
 
 }
