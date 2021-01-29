@@ -13,7 +13,7 @@
 	try
 	{
 		// Connect to database
-		$db = mysqli_connect("localhost", "TheBeast", "WeLoveCOP4331", "COP4331");
+		$db = mysqli_connect("localhost", "TheBeast", "group13sql", "COP4331");
 	
 			if ($db->connect_error)
 				throw new Exception( $db->connect_error );
