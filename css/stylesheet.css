@@ -5,7 +5,7 @@
 }
 
 body {
-    background: orangered;
+    background: gray;
 }
 
 .row {
@@ -31,8 +31,12 @@ img {
     font-weight: bold;
 }
 
+.font-weight-bold {
+    color: red;
+}
+
 .btn1:hover {
-    background: white;
+    background: red;
     border: 1px solid;
-    color: black;
+    color: white;
 }
