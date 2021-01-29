@@ -6,22 +6,28 @@
 
 	<!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
-    <link rel="stylesheet" href="css/styles.css">
-	<title>Chart Test</title>
+    <link rel="stylesheet" href="css/chartstyles.css">
+	<title>Contact List</title>
 </head>
 <body>
 
-        <div class = "row mx-5 my-5">
+    <div class = "row mx-5 my-5">
 			<div class = "container">
     	 <!--Search -->
-         <div class="search">
-                <div class="col-lg-8 mx-4">
-                  <input type="search" placeholder="Search..." class="form-control my-2">
+        <div class="search">
+          <div class = "flex-container">
+                <div>
+                  <input type="text" placeholder="Search..." id="search-bar">
                	</div>
-         </div>
-         	<div class="btn2">
-                +
-         	</div>
+                <div class = "search-btn"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16"><path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/></svg>
+                </div>
+          </div>
+        </div>
+         	
+          <!-- Add Contact -->
+            <form>
+<input class="btn2" type="button" value="+" onclick="window.location.href='addContact.html'" />
+</form> 
 
 			<table>
   				<tr>
@@ -38,9 +44,15 @@
   					<td> 123 street </td>
   					<td> 123 123 1234 </td>
   					<td> truongguyen@gmail </td>
-  					<td> <div class = btn3> <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots-vertical" viewBox="0 0 16 16">
-  <path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/>
-</svg> </div> </td>
+  					<td> <div class="dropdown">
+  <button onclick="myFunction()" class="dropbtn"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots-vertical" viewBox="0 0 16 16"><path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/></svg>
+  </button>
+  <div id="myDropdown" class="dropdown-content">
+    <a href="#home">Edit</a>
+    <a href="#about">Delete</a>
+  </div>
+</div>
+      </td>
   				</tr>
   				<tr>
   					<td> Truong </td>
@@ -48,9 +60,14 @@
   					<td> 123 street </td>
   					<td> 123 123 1234 </td>
   					<td> truongguyen@gmail </td>
-  					<td> <div class = btn3> <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots-vertical" viewBox="0 0 16 16">
-  <path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/>
-</svg> </div> </td>
+  					<td> <div class="dropdown">
+  <button onclick="myFunction()" class="dropbtn"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots-vertical" viewBox="0 0 16 16"><path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/></svg>
+  </button>
+  <div id="myDropdown" class="dropdown-content">
+    <a href="#home">Edit</a>
+    <a href="#about">Delete</a>
+  </div>
+</div> </td>
   				</tr>
   				<tr>
   					<td> Truong </td>
@@ -58,9 +75,14 @@
   					<td> 123 street </td>
   					<td> 123 123 1234 </td>
   					<td> truongguyen@gmail </td>
-  					<td> <div class = btn3> <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots-vertical" viewBox="0 0 16 16">
-  <path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/>
-</svg> </div> </td>
+  					<td> <div class="dropdown">
+  <button onclick="myFunction()" class="dropbtn"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots-vertical" viewBox="0 0 16 16"><path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/></svg>
+  </button>
+  <div id="myDropdown" class="dropdown-content">
+    <a href="#home">Edit</a>
+    <a href="#about">Delete</a>
+  </div>
+</div> </td>
   				</tr>
   				<tr>
   					<td> Truong </td>
@@ -68,9 +90,14 @@
   					<td> 123 street </td>
   					<td> 123 123 1234 </td>
   					<td> truongguyen@gmail </td>
-  					<td> <div class = btn3> <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots-vertical" viewBox="0 0 16 16">
-  <path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/>
-</svg> </div> </td>
+  					<td> <div class="dropdown">
+  <button onclick="myFunction()" class="dropbtn"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots-vertical" viewBox="0 0 16 16"><path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/></svg>
+  </button>
+  <div id="myDropdown" class="dropdown-content">
+    <a href="#home">Edit</a>
+    <a href="#about">Delete</a>
+  </div>
+</div> </td>
   				</tr>
   				<tr>
   					<td> Truong </td>
@@ -78,9 +105,14 @@
   					<td> 123 street </td>
   					<td> 123 123 1234 </td>
   					<td> truongguyen@gmail </td>
-  					<td> <div class = btn3> <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots-vertical" viewBox="0 0 16 16">
-  <path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/>
-</svg> </div> </td>
+  					<td> <div class="dropdown">
+  <button onclick="myFunction()" class="dropbtn"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots-vertical" viewBox="0 0 16 16"><path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/></svg>
+  </button>
+  <div id="myDropdown" class="dropdown-content">
+    <a href="#home">Edit</a>
+    <a href="#about">Delete</a>
+  </div>
+</div> </td>
   				</tr>
   				<tr>
   					<td> Truong </td>
@@ -88,15 +120,22 @@
   					<td> 123 street </td>
   					<td> 123 123 1234 </td>
   					<td> truongguyen@gmail </td>
-  					<td> <div class = btn3> <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots-vertical" viewBox="0 0 16 16">
-  <path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/>
-</svg> </div> </td>
+  					<td> <div class="dropdown">
+  <button onclick="myFunction()" class="dropbtn"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots-vertical" viewBox="0 0 16 16"><path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/></svg>
+  </button>
+  <div id="myDropdown" class="dropdown-content">
+    <a href="#home">Edit</a>
+    <a href="#about">Delete</a>
+  </div>
+</div> </td>
   				</tr>
 			</table>
+
     		</div>
 
     	</div>
 
+      <script src="js/menu.js"></script>
 
 </body>
 </html> 
