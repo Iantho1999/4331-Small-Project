@@ -150,3 +150,112 @@ function doLogout()
 	document.cookie = "firstName= ; expires = Thu, 01 Jan 1970 00:00:00 GMT";
 	window.location.href = "index.html";
 }
+
+function doSearch()
+{
+ 	var search = document.getElementById("search-bar").value;
+ 	//readCookie();
+ 	var cookieId = 0;
+	var data = document.cookie;
+	var splits = data.split(",");
+	for(var i = 0; i < splits.length; i++) 
+	{
+		var thisOne = splits[i].trim();
+		var tokens = thisOne.split("=");
+		if( tokens[0] == "firstName" )
+		{
+			firstName = tokens[1];
+		}
+		else if( tokens[0] == "lastName" )
+		{
+			lastName = tokens[1];
+		}
+		else if( tokens[0] == "userId" )
+		{
+			cookieId = parseInt( tokens[1].trim() );
+		}
+	}
+
+ 	document.getElementById("search-bar").innerHTML = "";
+
+ 	var jsonPayload = '{"search" : "' + search + '", "userId" : "' + cookieId + '"}';
+	var url = urlBase + '/SearchContacts.' + extension;
+
+	console.log(jsonPayload);
+	var xhr = new XMLHttpRequest();
+	xhr.open("POST", url, true);
+	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+
+	try
+	{
+		xhr.send(jsonPayload);
+   
+   try
+   {
+		var jsonObject = JSON.parse(xhr.responseText);
+		document.getElementById("searchResult").innerHTML = JSON.stringify(jsonObject);
+   }
+   catch(e)
+   {
+     document.getElementById("searchResult").innerHTML = "No Records Found";
+   }
+   
+	}
+	catch(err)
+	{
+		document.getElementById("searchResult").innerHTML = err.message;
+	}
+}
+
+function addContact()
+{
+  var first = document.getElementById("user").value;
+  var last = document.getElementById("pass").value;
+  var phone = document.getElementById("phone").value;
+  var email = document.getElementById("mail").value;
+
+  var jsonPayload = '{"firstName" : "' + first + '", "lastName" : "' + last + '", "phoneNumber" : "' + phone + '", "email" : "' + mail + '", "userId" : "' + userId + '"}';
+  var xhr = new XMLHttpRequest();
+	xhr.open("POST", url, false);
+	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+
+  try
+  {
+    xhr.onreadystatechange = function()
+		{
+			if (this.readyState == 4 && this.status == 200)
+			{
+				window.location.href = "chart.html";
+			}
+		};
+    xhr.send(jsonPayload); 
+  }
+  catch(err)
+  {
+    document.getElementById("registerResult").innerHTML = err.message;
+  }
+}
+
+
+function myFunction() 
+{
+  document.getElementById("myDropdown").classList.toggle("show");
+}
+
+// Close the dropdown if the user clicks outside of it
+window.onclick = function(event)
+{
+  if (!event.target.matches('.dropbtn'))
+  {
+    var dropdowns = document.getElementsByClassName("dropdown-content");
+    var i;
+    for (i = 0; i < dropdowns.length; i++)
+    {
+      var openDropdown = dropdowns[i];
+      if (openDropdown.classList.contains('show'))
+      {
+        openDropdown.classList.remove('show');
+      }
+    }
+  }
+}

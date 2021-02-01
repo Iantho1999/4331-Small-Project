@@ -23,41 +23,34 @@
               <h3>First Name</h3>
               <div class="form-row">
                 <div class="col-lg-9">
-                  <input type="username" placeholder="John" class="form-control my-2">
+                  <input type="username" id="user" placeholder="John" class="form-control my-2">
                 </div>
               </div>
               <!-- Last Name -->
               <h3>Last Name</h3>
               <div class="form-row">
                 <div class="col-lg-9">
-                  <input type="password" placeholder="Smith" class="form-control">
-                </div>
-              </div>
-              <!-- Address -->
-              <h3>Address</h3>
-              <div class="form-row">
-                <div class="col-lg-9">
-                  <input type="password" placeholder="123 Street" class="form-control">
+                  <input type="password" id="pass" placeholder="Smith" class="form-control">
                 </div>
               </div>
               <!-- Number -->
               <h3>Phone Number</h3>
               <div class="form-row">
                 <div class="col-lg-9">
-                  <input type="password" placeholder="1231231234" class="form-control">
+                  <input type="number" id="phone" placeholder="1231231234" class="form-control">
                 </div>
               </div>
               <h3>Email Address</h3>
               <div class="form-row">
                 <div class="col-lg-9">
-                  <input type="password" placeholder="JohnSmith123@email.com" class="form-control">
+                  <input type="email" id="mail" placeholder="JohnSmith123@email.com" class="form-control">
                 </div>
               </div>
               <!-- add contact button -->
               <div class="form-row">
                 <div class="col-lg-9">
                   <a href="chart.html">
-                    <button type="button" class="btn1 mt-3 mb-5">Add Contact</button>
+                    <button onclick = "addContact()" type="button" class="btn1 mt-3 mb-5">Add Contact</button>
                   </a>
                 </div>
               </div>
