@@ -16,6 +16,13 @@
 			if ($db->connect_error)
 				throw new Exception( $db->connect_error );
 
+		// Check that user with given user ID exists
+		$sql = "SELECT ID from Users where ID={$userId}";
+		$result = $db->query($sql);
+
+			if ($result->num_rows == 0)
+				throw new Exception( "Invalid User ID" );
+
 		// Search for contacts that match the given search
 		$sql = "SELECT ID, FirstName, LastName, PhoneNumber, Email from Contacts where userID={$userId} and (FirstName like '%{$search}%' or LastName like '%{$search}%' or PhoneNumber like '%{$search}%' or Email like '%{$search}%')";
 		$result = $db->query($sql);
@@ -24,8 +31,16 @@
 				throw new Exception( "No Records Found" );
 
 		// Compile search results
-		$searchResults = $result->fetch_all(MYSQLI_ASSOC);
-
+		while ($row = $result->fetch_assoc())
+		{
+			$searchResults[] = array(
+				'id' => $row["ID"],
+				'firstName' => $row["FirstName"],
+				'lastName' => $row["LastName"],
+				'phoneNumber' => $row["PhoneNumber"],
+				'email' => $row["Email"] );
+		}
+		
 		// Return search results
 		returnWithInfo($searchResults);
 
