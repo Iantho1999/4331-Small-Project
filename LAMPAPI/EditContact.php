@@ -19,13 +19,13 @@
       throw new Exception($db->connect_error);
     }
    
-    // Check that the user with the given ID exists
-    $sql = "SELECT * from Users where ID={$userId}";
+    // Check that contact exists for given user
+    $sql = "SELECT ID from Contacts where ID={$id} and userID={$userId}";
     $result = $db->query($sql);
    
     if ($result->num_rows == 0)
     {
-      throw new Exception("Invalid User ID");
+      throw new Exception("No Records Found");
     }
    
     // Edit the contact
@@ -36,6 +36,8 @@
     {
       throw new Exception($db->error);
     }
+   
+   returnWithError("");
    
     // Close database connection
     $db->close();
@@ -58,15 +60,10 @@
  
  	function returnWithError( $error )
 	{
-		$retValue = json_encode( ['id' => 0, 'error' => $error] );
+		$retValue = json_encode( ['error' => $error] );
 		sendResultInfoAsJson( $retValue );
 	}
  
  
- 	function returnWithInfo( $id )
-	{
-		$retValue = json_encode( ['id' => $id, 'error' => ""] );
-		sendResultInfoAsJson( $retValue );
-	}
 
 ?>
