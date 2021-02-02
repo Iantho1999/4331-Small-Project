@@ -37,7 +37,7 @@
       throw new Exception($db->error);
     }
    
-   returnWithError("");
+    returnWithError("");
    
     // Close database connection
     $db->close();
@@ -63,7 +63,4 @@
 		$retValue = json_encode( ['error' => $error] );
 		sendResultInfoAsJson( $retValue );
 	}
- 
- 
-
 ?>
