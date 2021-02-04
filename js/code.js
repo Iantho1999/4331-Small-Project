@@ -183,28 +183,69 @@ function doSearch()
 
 	console.log(jsonPayload);
 	var xhr = new XMLHttpRequest();
-	xhr.open("POST", url, true);
+	xhr.open("POST", url, false);
 	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
 
 	try
 	{
 		xhr.send(jsonPayload);
-   
-   try
-   {
 		var jsonObject = JSON.parse(xhr.responseText);
-		document.getElementById("searchResult").innerHTML = JSON.stringify(jsonObject);
-   }
-   catch(e)
-   {
-     document.getElementById("searchResult").innerHTML = "No Records Found";
-   }
-   
+		//document.getElementById("searchResult").innerHTML = JSON.stringify(jsonObject);
 	}
 	catch(err)
 	{
-		document.getElementById("searchResult").innerHTML = err.message;
+		document.getElementById("Results").innerHTML = err.message;
+    return;
 	}
+   
+   if ((jsonObject.results).length == 0)
+   {
+     document.getElementById("Results").innerHTML = "No Records Found";
+     document.getElementById("contactTable").innerHTML = "";
+     return;
+   }
+   else
+     document.getElementById("Results").innerHTML = "";
+  
+  var table = document.getElementById("contactTable");
+  table.innerHTML = "";
+  
+  for (var i = 0; i < (jsonObject.results).length; i++)
+  {
+    var row = `<tr>
+                  <td>${(jsonObject.results)[i].firstName}</td>
+                  <td>${(jsonObject.results)[i].lastName}</td>
+                  <td>${(jsonObject.results)[i].phoneNumber}</td>
+                  <td>${(jsonObject.results)[i].email}</td>
+                  <td><div class="dropdown">
+  <button onclick="myFunction()" class="dropbtn"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots-vertical" viewBox="0 0 16 16"><path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/></svg>
+  </button>
+  <div id="myDropdown" class="dropdown-content">
+    <a href="#home">Edit</a>
+    <a href="#about">Delete</a>
+  </div>
+</div> </td>
+              </tr>`;
+  
+    table.innerHTML += row;
+  }
+}
+
+function genTable(data)
+{
+  var table = document.getElementById("contactTable");
+  
+  for (var i = 0; i < data.length; i++)
+  {
+    var row = `<tr>
+                  <td>${data[i].firstName}</td>
+                  <td>${data[i].lastName}</td>
+                  <td>${data[i].phoneNumber}</td>
+                  <td>${data[i].email}</td>
+              </tr>`;
+  
+    table.innerHTML += row;
+  }
 }
 
 function addContact()
