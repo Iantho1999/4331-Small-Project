@@ -1,0 +1,132 @@
+*{
+    margin: 0;
+    padding: 0;
+    font-family: Georgia;
+}
+
+body{
+    background-color: gray;
+    background-size: cover;
+    background-position: center;
+}
+
+.flex-container {
+  display: flex;
+}
+
+.flex-container > div {
+  margin: 5px;
+  font-size: 30px;
+}
+
+#search-bar{
+  margin-top: 2%;
+  width : 500px;
+  height: 30px;
+  border-radius: 1%;
+  font-size: 16px;
+}
+
+#search-bar:active{
+  border: 2px solid lightblue;
+}
+
+.search-btn{
+  height: 50px;
+  width: 40px;
+  border: 1px solid black;
+  border-radius: 10%;
+  box-shadow: 1px 1px 1px black;
+  text-align: center;
+  background-color: lightgray;
+  cursor: pointer;
+}
+
+.search-btn:hover{
+  border: 2px solid lightblue;
+  box-shadow: 2px 2px 2px lightblue;
+}
+
+.row {
+	padding-top: 24px;
+	padding-bottom: 24px;
+    background: white;
+    border-radius: 30px;
+    box-shadow: 12px 12px 22px black;
+}
+
+table {
+  font-family: Georgia;
+  border-collapse: none;
+  width: 100%;
+}
+
+th {
+  font-size: 24px;
+  text-align: left;
+  padding-top: 24px;
+  padding-bottom: 24px;
+}
+
+td {
+  border: none;
+  text-align: left;
+  padding: 8px;
+}
+
+.btn2 {
+	margin-top: -4%;
+	margin-left: 80%;
+	font-size: 36px;
+	text-align: center;
+	background-color: gray;
+ 	width: 80px;
+  	padding: 1px;
+  	border: 2px solid black;
+  	border-radius: 50%;
+    cursor: pointer;
+}
+
+.btn2:hover {
+    background: red;
+    color: white;
+}
+
+.dropbtn {
+  background-color: white;
+  color: black;
+  border: none;
+  cursor: pointer;
+}
+
+.dropbtn:hover, .dropbtn:focus {
+  background-color: lightgrey;
+  border-radius: 10%;
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f1f1f1;
+  min-width: 100px;
+  overflow: auto;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  border-radius: 20%;
+  z-index: 1;
+}
+
+.dropdown-content a {
+  color: black;
+  padding: 12px 12px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown a:hover {background-color: lightblue;}
+
+.show {display: block;}
