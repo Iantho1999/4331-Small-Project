@@ -212,14 +212,14 @@ function doSearch() {
 
   $("#contactTable").empty();
 
-  for (var i = 0; i < jsonObject.results.length; i++) {
+  for (let i = 0; i < jsonObject.results.length; i++) {
     var row = `<tr scope="row" class="test-row-${jsonObject.results[i].id}">
                     <td id="fName-${jsonObject.results[i].id}" data-testid="${jsonObject.results[i].id}">${jsonObject.results[i].firstName}</td>
                     <td id="lName-${jsonObject.results[i].id}" data-testid="${jsonObject.results[i].id}">${jsonObject.results[i].lastName}</td>
                     <td id="phone-${jsonObject.results[i].id}" data-testid="${jsonObject.results[i].id}">${jsonObject.results[i].phoneNumber}</td>
     			          <td id="email-${jsonObject.results[i].id}" data-testid="${jsonObject.results[i].id}">${jsonObject.results[i].email}</td>
-
-          <td>
+                  
+                  <td id="btn-list">
                     <button class="btn btn-sm btn-danger" data-testid="${jsonObject.results[i].id}" id="delete-${jsonObject.results[i].id}">Delete</button>
                     <button class="btn btn-sm btn-success" disabled data-testid="${jsonObject.results[i].id}"  id="save-${jsonObject.results[i].id}">Save</button>
                   </td>
@@ -231,8 +231,21 @@ function doSearch() {
 		$(`#delete-${jsonObject.results[i].id}`).on('click', deleteTest)
 		// $(`#cancel-${jsonObject.results[i].id}`).on('click', cancelDeletion)
 		// $(`#confirm-${jsonObject.results[i].id}`).on('click', confirmDeletion)
-		$(`#save-${jsonObject.results[i].id}`).on('click', saveUpdate)
+		
+    //$(`#save-${jsonObject.results[i].id}`).on('click', saveUpdate(i, jsonObject))
 
+
+    // $('#contactTable').on('click', `#save-${jsonObject.results[i].id}`, function() {
+    //     saveUpdate(i, jsonObject)
+    // });
+
+    $(document).on('click', `#save-${jsonObject.results[i].id}`, function(){
+      saveUpdate(i);
+    });
+
+    // $(`#save-${jsonObject.results[i].id}`).click(function(){
+    //   saveUpdate(i);
+    // });
 
 		$(`#fName-${jsonObject.results[i].id}`).on('click', editResult)
     $(`#lName-${jsonObject.results[i].id}`).on('click', editResult)
@@ -256,7 +269,7 @@ function editResult(){
 
 }
 
-function saveUpdate(){
+function saveUpdate(i , jsonObject){
   console.log('Saved!')
   var testid = $(this).data('testid')
   var saveBtn = $(`#save-${testid}`)
@@ -269,10 +282,11 @@ function saveUpdate(){
     row.css('opacity', '1')
   }, 1000)
 
-  // var jsonPayload = '{"id" : "' + testid + '", "firstName" : "' + jsonObject.results[i].firstName +  '", "lastName" : "' + jsonObject.results[i].lastName + '", "phoneNumber" : "' + jsonObject.results[i].phoneNumber + '", "email" : "' + jsonObject.results[i].email + '", "userId" : "' + jsonObject.results[i].userId +'"}';
+  console.log("index :" + i)
+  var jsonPayload = '{"id" : "' + testid + '", "firstName" : "' + jsonObject.results[i].firstName +  '", "lastName" : "' + jsonObject.results[i].lastName + '", "phoneNumber" : "' + jsonObject.results[i].phoneNumber + '", "email" : "' + jsonObject.results[i].email + '", "userId" : "' + jsonObject.results[i].userId +'"}';
   // var url = urlBase + "/EditContact." + extension;
 
-  // console.log(jsonPayload);
+  console.log(jsonPayload);
   // var xhr = new XMLHttpRequest();
   // xhr.open("POST", url, true);
   // xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
@@ -298,7 +312,7 @@ function deleteTest(index) {
     } else if (tokens[0] == "lastName") {
       lastName = tokens[1];
     } else if (tokens[0] == "userId") {
-      cookieId = parseInt(tokens[1].trim());
+      var cookieId = parseInt(tokens[1].trim());
     }
   }
 
@@ -342,9 +356,25 @@ function genTable(data) {
 
 function addContact() {
   var first = document.getElementById("user").value;
-  var last = document.getElementById("pass").value;
+  var last = document.getElementById("last").value;
   var phone = document.getElementById("phone").value;
   var email = document.getElementById("mail").value;
+  
+  //readCookie();
+  var cookieId = 0;
+  var data = document.cookie;
+  var splits = data.split(",");
+  for (var i = 0; i < splits.length; i++) {
+    var thisOne = splits[i].trim();
+    var tokens = thisOne.split("=");
+    if (tokens[0] == "firstName") {
+      firstName = tokens[1];
+    } else if (tokens[0] == "lastName") {
+      lastName = tokens[1];
+    } else if (tokens[0] == "userId") {
+      cookieId = parseInt(tokens[1].trim());
+    }
+  }
 
   var jsonPayload =
     '{"firstName" : "' +
@@ -354,23 +384,26 @@ function addContact() {
     '", "phoneNumber" : "' +
     phone +
     '", "email" : "' +
-    mail +
+    email +
     '", "userId" : "' +
-    userId +
+    cookieId +
     '"}';
+  var url = urlBase + "/AddContact." + extension;
   var xhr = new XMLHttpRequest();
-  xhr.open("POST", url, false);
+  xhr.open("POST", url, true);
   xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
 
   try {
-    xhr.onreadystatechange = function () {
-      if (this.readyState == 4 && this.status == 200) {
-        window.location.href = "chart.html";
+    xhr.onreadystatechange = function ()
+    {
+      if (this.readyState == 4 && this.status == 200)
+      {
+        document.getElementById("addResult").innerHTML = "Contact has been Added";
       }
     };
     xhr.send(jsonPayload);
   } catch (err) {
-    document.getElementById("registerResult").innerHTML = err.message;
+    document.getElementById("addResult").innerHTML = err.message;
   }
 }
 
