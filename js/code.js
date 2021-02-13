@@ -145,6 +145,107 @@ function doLogout() {
   window.location.href = "index.html";
 }
 
+$('#search-bar').on('keyup', function()
+{
+  var value = $(this).val();
+  console.log('Value:', value);
+  var jsonObject = filterSearch(value);
+  
+  $("#contactTable").empty();
+
+  for (let i = 0; i < jsonObject.results.length; i++) {
+    var row = `<tr scope="row" class="test-row-${jsonObject.results[i].id}">
+                    <td id="fName-${jsonObject.results[i].id}" data-testid="${jsonObject.results[i].id}">${jsonObject.results[i].firstName}</td>
+                    <td id="lName-${jsonObject.results[i].id}" data-testid="${jsonObject.results[i].id}">${jsonObject.results[i].lastName}</td>
+                    <td id="phone-${jsonObject.results[i].id}" data-testid="${jsonObject.results[i].id}">${jsonObject.results[i].phoneNumber}</td>
+    			          <td id="email-${jsonObject.results[i].id}" data-testid="${jsonObject.results[i].id}">${jsonObject.results[i].email}</td>
+                  
+                  <td id="btn-list">
+                    <button class="btn btn-sm btn-danger" data-testid="${jsonObject.results[i].id}" id="delete-${jsonObject.results[i].id}">Delete</button>
+                    <button class="btn btn-sm btn-success" disabled data-testid="${jsonObject.results[i].id}"  id="save-${jsonObject.results[i].id}">Save</button>
+                  </td>
+    </tr>`;
+
+    //table.innerHTML += row;
+    $('#contactTable').append(row)
+
+		$(`#delete-${jsonObject.results[i].id}`).click(function(){
+      deleteTest(jsonObject.results[i].id);
+    });
+		// $(`#cancel-${jsonObject.results[i].id}`).on('click', cancelDeletion)
+		// $(`#confirm-${jsonObject.results[i].id}`).on('click', confirmDeletion)
+		
+    //$(`#save-${jsonObject.results[i].id}`).on('click', saveUpdate(i, jsonObject))
+
+
+    // $('#contactTable').on('click', `#save-${jsonObject.results[i].id}`, function() {
+    //     saveUpdate(i, jsonObject)
+    // });
+
+    $(document).on('click', `#save-${jsonObject.results[i].id}`, function(){
+      saveUpdate(i);
+    });
+
+    // $(`#save-${jsonObject.results[i].id}`).click(function(){
+    //   saveUpdate(i);
+    // });
+
+		$(`#fName-${jsonObject.results[i].id}`).on('click', editResult)
+    $(`#lName-${jsonObject.results[i].id}`).on('click', editResult)
+		$(`#phone-${jsonObject.results[i].id}`).on('click', editResult)
+		$(`#email-${jsonObject.results[i].id}`).on('click', editResult)
+  }
+})
+
+function filterSearch(value)
+{
+  //readCookie();
+  var cookieId = 0;
+  var data = document.cookie;
+  var splits = data.split(",");
+  for (var i = 0; i < splits.length; i++) {
+    var thisOne = splits[i].trim();
+    var tokens = thisOne.split("=");
+    if (tokens[0] == "firstName") {
+      firstName = tokens[1];
+    } else if (tokens[0] == "lastName") {
+      lastName = tokens[1];
+    } else if (tokens[0] == "userId") {
+      cookieId = parseInt(tokens[1].trim());
+    }
+  }
+
+  document.getElementById("search-bar").innerHTML = "";
+
+  var jsonPayload =
+    '{"search" : "' + value + '", "userId" : "' + cookieId + '"}';
+  var url = urlBase + "/SearchContacts." + extension;
+
+  console.log(jsonPayload);
+  var xhr = new XMLHttpRequest();
+  xhr.open("POST", url, false);
+  xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+
+  try {
+    xhr.send(jsonPayload);
+    var jsonObject = JSON.parse(xhr.responseText);
+    //document.getElementById("searchResult").innerHTML = JSON.stringify(jsonObject);
+  } catch (err) {
+    document.getElementById("Results").innerHTML = err.message;
+    return;
+  }
+
+  if (jsonObject.results.length == 0) {
+    document.getElementById("Results").innerHTML = "No Records Found";
+    document.getElementById("contactTable").innerHTML = "";
+    return;
+  } else document.getElementById("Results").innerHTML = "";
+
+  console.log(jsonObject);
+
+  return jsonObject;
+}
+
 function doSearch() {
   var search = document.getElementById("search-bar").value;
   //readCookie();
@@ -191,7 +292,7 @@ function doSearch() {
 
   console.log(jsonObject);
 
-
+  //return jsonObject;
   // var table = document.getElementById("contactTable");
   // table.innerHTML = "";
 
@@ -228,7 +329,9 @@ function doSearch() {
     //table.innerHTML += row;
     $('#contactTable').append(row)
 
-		$(`#delete-${jsonObject.results[i].id}`).on('click', deleteTest)
+		$(`#delete-${jsonObject.results[i].id}`).click(function(){
+      deleteTest(jsonObject.results[i].id);
+    });
 		// $(`#cancel-${jsonObject.results[i].id}`).on('click', cancelDeletion)
 		// $(`#confirm-${jsonObject.results[i].id}`).on('click', confirmDeletion)
 		
