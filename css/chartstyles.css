@@ -31,20 +31,23 @@ body{
   border: 2px solid lightblue;
 }
 
-.search-btn{
-  height: 50px;
-  width: 40px;
+.add-btn{
+  height: 60px;
+  width: 90px;
+  font-size: 20px;
   border: 1px solid black;
-  border-radius: 10%;
+  border-radius: 20%;
   box-shadow: 1px 1px 1px black;
   text-align: center;
   background-color: lightgray;
   cursor: pointer;
 }
 
-.search-btn:hover{
+.add-btn:hover{
+  background-color: lightblue;
   border: 2px solid lightblue;
   box-shadow: 2px 2px 2px lightblue;
+  color : blue;
 }
 
 .row {
