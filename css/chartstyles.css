@@ -12,6 +12,8 @@ body{
 
 .flex-container {
   display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .flex-container > div {
@@ -29,25 +31,6 @@ body{
 
 #search-bar:active{
   border: 2px solid lightblue;
-}
-
-.add-btn{
-  height: 60px;
-  width: 90px;
-  font-size: 20px;
-  border: 1px solid black;
-  border-radius: 20%;
-  box-shadow: 1px 1px 1px black;
-  text-align: center;
-  background-color: lightgray;
-  cursor: pointer;
-}
-
-.add-btn:hover{
-  background-color: lightblue;
-  border: 2px solid lightblue;
-  box-shadow: 2px 2px 2px lightblue;
-  color : blue;
 }
 
 .row {
@@ -76,60 +59,3 @@ td {
   text-align: left;
   padding: 8px;
 }
-
-.btn2 {
-	margin-top: -4%;
-	margin-left: 80%;
-	font-size: 36px;
-	text-align: center;
-	background-color: gray;
- 	width: 80px;
-  	padding: 1px;
-  	border: 2px solid black;
-  	border-radius: 50%;
-    cursor: pointer;
-}
-
-.btn2:hover {
-    background: red;
-    color: white;
-}
-
-.dropbtn {
-  background-color: white;
-  color: black;
-  border: none;
-  cursor: pointer;
-}
-
-.dropbtn:hover, .dropbtn:focus {
-  background-color: lightgrey;
-  border-radius: 10%;
-}
-
-.dropdown {
-  position: relative;
-  display: inline-block;
-}
-
-.dropdown-content {
-  display: none;
-  position: absolute;
-  background-color: #f1f1f1;
-  min-width: 100px;
-  overflow: auto;
-  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-  border-radius: 20%;
-  z-index: 1;
-}
-
-.dropdown-content a {
-  color: black;
-  padding: 12px 12px;
-  text-decoration: none;
-  display: block;
-}
-
-.dropdown a:hover {background-color: lightblue;}
-
-.show {display: block;}

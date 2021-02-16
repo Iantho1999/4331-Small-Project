@@ -14,19 +14,19 @@
     <link rel="stylesheet" href="css/chartstyles.css">
 	<title>Contact List</title>
 </head>
-<body onload = "doSearch()">
+<body onload = "doSearch(); welcome();">
     <div class = "row mx-5 my-5">
 			<div class = "container">
+      <h1 id="welcome"></h1>
     	 <!--Search -->
         <div class="search">
           <div class = "flex-container">
                 <div>
                   <input type="text" placeholder="Search..." id="search-bar">
                	</div>
-               	<div></div>
                	<!-- Add Contact -->
-                <button onclick="window.location.href='addContact.html'" class = "add-btn">Add Contact
-                </button>
+                <div><button type="button" class="btn btn-primary btn-sm" onclick="window.location.href='addContact.html'">Add Contact
+                </button></div>
           </div>
         </div>
 

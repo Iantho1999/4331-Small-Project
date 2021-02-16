@@ -137,6 +137,26 @@ function readCookie() {
   }
 }
 
+function welcome()
+{
+  userId = -1;
+  var data = document.cookie;
+  var splits = data.split(",");
+  for (var i = 0; i < splits.length; i++) {
+    var thisOne = splits[i].trim();
+    var tokens = thisOne.split("=");
+    if (tokens[0] == "firstName") {
+      firstName = tokens[1];
+    } else if (tokens[0] == "lastName") {
+      lastName = tokens[1];
+    } else if (tokens[0] == "userId") {
+      userId = parseInt(tokens[1].trim());
+    }
+  }
+  
+  document.getElementById("welcome").innerHTML = "Welcome " + firstName + " " + lastName + "!";
+}
+
 function doLogout() {
   userId = 0;
   firstName = "";
@@ -153,48 +173,23 @@ $('#search-bar').on('keyup', function()
   
   $("#contactTable").empty();
 
-  for (let i = 0; i < jsonObject.results.length; i++) {
-    var row = `<tr scope="row" class="test-row-${jsonObject.results[i].id}">
-                    <td id="fName-${jsonObject.results[i].id}" data-testid="${jsonObject.results[i].id}">${jsonObject.results[i].firstName}</td>
-                    <td id="lName-${jsonObject.results[i].id}" data-testid="${jsonObject.results[i].id}">${jsonObject.results[i].lastName}</td>
-                    <td id="phone-${jsonObject.results[i].id}" data-testid="${jsonObject.results[i].id}">${jsonObject.results[i].phoneNumber}</td>
-    			          <td id="email-${jsonObject.results[i].id}" data-testid="${jsonObject.results[i].id}">${jsonObject.results[i].email}</td>
-                  
-                  <td id="btn-list">
-                    <button class="btn btn-sm btn-danger" data-testid="${jsonObject.results[i].id}" id="delete-${jsonObject.results[i].id}">Delete</button>
-                    <button class="btn btn-sm btn-success" disabled data-testid="${jsonObject.results[i].id}"  id="save-${jsonObject.results[i].id}">Save</button>
-                  </td>
-    </tr>`;
+  for (let i = 0; i < jsonObject.results.length; i++)
+  {
+    var row = `<tr scope="row" id="test-row-${jsonObject.results[i].id}">
+      <td id="fName-${jsonObject.results[i].id}" data-testid="${jsonObject.results[i].id}">${jsonObject.results[i].firstName}</td>
+      <td id="lName-${jsonObject.results[i].id}" data-testid="${jsonObject.results[i].id}">${jsonObject.results[i].lastName}</td>
+      <td id="phone-${jsonObject.results[i].id}" data-testid="${jsonObject.results[i].id}">${jsonObject.results[i].phoneNumber}</td>
+      <td id="email-${jsonObject.results[i].id}" data-testid="${jsonObject.results[i].id}">${jsonObject.results[i].email}</td>
+
+      <td>
+          <button type="button" class="btn btn-sm btn-danger" onClick="deleteTest(${jsonObject.results[i].id})" data-testid="${jsonObject.results[i].id}" id="delete-${jsonObject.results[i].id}">Delete</button>
+          <input class="btn btn-sm btn-info" type="button" id='save-${jsonObject.results[i].id}' data-value="${jsonObject.results[i].id}" value ='Save'>
+      </td>
+      </tr>`
 
     //table.innerHTML += row;
-    $('#contactTable').append(row)
-
-		$(`#delete-${jsonObject.results[i].id}`).click(function(){
-      deleteTest(jsonObject.results[i].id);
-    });
-		// $(`#cancel-${jsonObject.results[i].id}`).on('click', cancelDeletion)
-		// $(`#confirm-${jsonObject.results[i].id}`).on('click', confirmDeletion)
-		
-    //$(`#save-${jsonObject.results[i].id}`).on('click', saveUpdate(i, jsonObject))
-
-
-    // $('#contactTable').on('click', `#save-${jsonObject.results[i].id}`, function() {
-    //     saveUpdate(i, jsonObject)
-    // });
-
-    $(document).on('click', `#save-${jsonObject.results[i].id}`, function(){
-      saveUpdate(i);
-    });
-
-    // $(`#save-${jsonObject.results[i].id}`).click(function(){
-    //   saveUpdate(i);
-    // });
-
-		$(`#fName-${jsonObject.results[i].id}`).on('click', editResult)
-    $(`#lName-${jsonObject.results[i].id}`).on('click', editResult)
-		$(`#phone-${jsonObject.results[i].id}`).on('click', editResult)
-		$(`#email-${jsonObject.results[i].id}`).on('click', editResult)
-  }
+    $("#contactTable").append(row);
+    }
 })
 
 function filterSearch(value)
@@ -292,7 +287,7 @@ function doSearch() {
 
   console.log(jsonObject);
 
-  //return jsonObject;
+
   // var table = document.getElementById("contactTable");
   // table.innerHTML = "";
 
@@ -314,48 +309,112 @@ function doSearch() {
   $("#contactTable").empty();
 
   for (let i = 0; i < jsonObject.results.length; i++) {
-    var row = `<tr scope="row" class="test-row-${jsonObject.results[i].id}">
-                    <td id="fName-${jsonObject.results[i].id}" data-testid="${jsonObject.results[i].id}">${jsonObject.results[i].firstName}</td>
-                    <td id="lName-${jsonObject.results[i].id}" data-testid="${jsonObject.results[i].id}">${jsonObject.results[i].lastName}</td>
-                    <td id="phone-${jsonObject.results[i].id}" data-testid="${jsonObject.results[i].id}">${jsonObject.results[i].phoneNumber}</td>
-    			          <td id="email-${jsonObject.results[i].id}" data-testid="${jsonObject.results[i].id}">${jsonObject.results[i].email}</td>
-                  
-                  <td id="btn-list">
-                    <button class="btn btn-sm btn-danger" data-testid="${jsonObject.results[i].id}" id="delete-${jsonObject.results[i].id}">Delete</button>
-                    <button class="btn btn-sm btn-success" disabled data-testid="${jsonObject.results[i].id}"  id="save-${jsonObject.results[i].id}">Save</button>
-                  </td>
-    </tr>`;
+    var row = `<tr scope="row" id="test-row-${jsonObject.results[i].id}">
+      <td id="fName-${jsonObject.results[i].id}" data-testid="${jsonObject.results[i].id}">${jsonObject.results[i].firstName}</td>
+      <td id="lName-${jsonObject.results[i].id}" data-testid="${jsonObject.results[i].id}">${jsonObject.results[i].lastName}</td>
+      <td id="phone-${jsonObject.results[i].id}" data-testid="${jsonObject.results[i].id}">${jsonObject.results[i].phoneNumber}</td>
+      <td id="email-${jsonObject.results[i].id}" data-testid="${jsonObject.results[i].id}">${jsonObject.results[i].email}</td>
+
+      <td>
+          <button type="button" class="btn btn-sm btn-danger" onClick="deleteTest(${jsonObject.results[i].id})" data-testid="${jsonObject.results[i].id}" id="delete-${jsonObject.results[i].id}">Delete</button>
+          <input class="btn btn-sm btn-info" type="button" id='save-${jsonObject.results[i].id}' data-value="${jsonObject.results[i].id}" value ='Save'>
+      </td>
+      </tr>`
 
     //table.innerHTML += row;
-    $('#contactTable').append(row)
+    $("#contactTable").append(row);
 
-		$(`#delete-${jsonObject.results[i].id}`).click(function(){
-      deleteTest(jsonObject.results[i].id);
-    });
-		// $(`#cancel-${jsonObject.results[i].id}`).on('click', cancelDeletion)
-		// $(`#confirm-${jsonObject.results[i].id}`).on('click', confirmDeletion)
-		
+    // $(`#cancel-${jsonObject.results[i].id}`).on('click', cancelDeletion)
+    // $(`#confirm-${jsonObject.results[i].id}`).on('click', confirmDeletion)
+
     //$(`#save-${jsonObject.results[i].id}`).on('click', saveUpdate(i, jsonObject))
-
 
     // $('#contactTable').on('click', `#save-${jsonObject.results[i].id}`, function() {
     //     saveUpdate(i, jsonObject)
     // });
 
-    $(document).on('click', `#save-${jsonObject.results[i].id}`, function(){
-      saveUpdate(i);
-    });
+    // $(`#delete-${jsonObject.results[i].id}`).click(function () {
+    //   deleteTest(jsonObject.results[i].id);
+    // });
 
-    // $(`#save-${jsonObject.results[i].id}`).click(function(){
+    // $(document).on("click", `#save-${jsonObject.results[i].id}`, function () {
     //   saveUpdate(i);
     // });
 
-		$(`#fName-${jsonObject.results[i].id}`).on('click', editResult)
-    $(`#lName-${jsonObject.results[i].id}`).on('click', editResult)
-		$(`#phone-${jsonObject.results[i].id}`).on('click', editResult)
-		$(`#email-${jsonObject.results[i].id}`).on('click', editResult)
+    // $(`#fName-${jsonObject.results[i].id}`).on("click", editResult);
+    // $(`#lName-${jsonObject.results[i].id}`).on("click", editResult);
+    // $(`#phone-${jsonObject.results[i].id}`).on("click", editResult);
+    // $(`#email-${jsonObject.results[i].id}`).on("click", editResult);
   }
 }
+
+$(document).on('click', 'td[data-testid]', function() {
+  var testid = $(this).data('testid')
+  var value = $(this).html()
+  $(this).html(`<input class="result form-control" data-testid = "${testid}" type = "text"
+  value = "${value}" >`)
+  //removed data-testid
+  $(this).removeAttr("data-testid");
+})
+
+$(document).on('click', '[id*=save-]', function() {
+  //use class to find input
+  console.log("Your values are :"+ $(this).data("value"));    
+
+  var fNameInput = $(this).closest('tr').find('.result:eq(0)').val();
+  var lNameInput = $(this).closest('tr').find('.result:eq(1)').val();
+  var phoneInput = $(this).closest('tr').find('.result:eq(2)').val();
+  var mailInput = $(this).closest('tr').find('.result:eq(3)').val();
+  
+  var currRow = $(this).closest('tr');
+  var fName = currRow.find('td:eq(0)').text();
+  var lName = currRow.find('td:eq(1)').text();
+  var phone = currRow.find('td:eq(2)').text();
+  var mail = currRow.find('td:eq(3)').text();
+  
+  if (fNameInput != null)
+    fName = fNameInput;
+     
+  if (lNameInput != null)
+    lName =lNameInput;
+   
+  if (phoneInput != null)
+    phone = phoneInput;
+     
+  if (mailInput != null)
+    mail = mailInput;
+
+  var data = document.cookie;
+  var splits = data.split(",");
+  for (var i = 0; i < splits.length; i++) {
+    var thisOne = splits[i].trim();
+    var tokens = thisOne.split("=");
+    if (tokens[0] == "firstName") {
+      firstName = tokens[1];
+    } else if (tokens[0] == "lastName") {
+      lastName = tokens[1];
+    } else if (tokens[0] == "userId") {
+      cookieId = parseInt(tokens[1].trim());
+    }
+  }
+
+  var jsonPayload = '{"id" : "' + $(this).data("value") + '", "firstName" : "' + fName +  '", "lastName" : "' + lName + '", "phoneNumber" : "' + phone + '", "email" : "' + mail + '", "userId" : "' + cookieId +'"}';
+  var url = urlBase + "/EditContact." + extension;
+
+  console.log(jsonPayload);
+  var xhr = new XMLHttpRequest();
+  xhr.open("POST", url, true);
+  xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+  try {
+    xhr.onreadystatechange = function () {
+    };
+    xhr.send(jsonPayload);
+  } catch (err) {
+    document.getElementById("registerResult").innerHTML = err.message;
+  }
+  
+  location.reload()
+})
 
 function editResult(){
   var testid = $(this).data('testid')
@@ -372,36 +431,52 @@ function editResult(){
 
 }
 
-function saveUpdate(i , jsonObject){
-  console.log('Saved!')
-  var testid = $(this).data('testid')
-  var saveBtn = $(`#save-${testid}`)
-  var row = $(`.test-row-${testid}`)
+// function saveUpdate(idd , jsonObject, index){
+//   var testid = $(this).data('testid')
+//   var saveBtn = $(`#save-${testid}`)
+//   var row = $(`.test-row-${testid}`)
 
-  saveBtn.prop('disabled', true)
-  row.css('opacity', "0.5")
+//   saveBtn.prop('disabled', true)
+//   row.css('opacity', "0.5")
 
-  setTimeout(function(){
-    row.css('opacity', '1')
-  }, 1000)
+//   setTimeout(function(){
+//     row.css('opacity', '1')
+//   }, 1000)
 
-  console.log("index :" + i)
-  var jsonPayload = '{"id" : "' + testid + '", "firstName" : "' + jsonObject.results[i].firstName +  '", "lastName" : "' + jsonObject.results[i].lastName + '", "phoneNumber" : "' + jsonObject.results[i].phoneNumber + '", "email" : "' + jsonObject.results[i].email + '", "userId" : "' + jsonObject.results[i].userId +'"}';
-  // var url = urlBase + "/EditContact." + extension;
+//   var data = document.cookie;
+//   var splits = data.split(",");
+//   for (var i = 0; i < splits.length; i++) {
+//     var thisOne = splits[i].trim();
+//     var tokens = thisOne.split("=");
+//     if (tokens[0] == "firstName") {
+//       firstName = tokens[1];
+//     } else if (tokens[0] == "lastName") {
+//       lastName = tokens[1];
+//     } else if (tokens[0] == "userId") {
+//       cookieId = parseInt(tokens[1].trim());
+//     }
+//   }
 
-  console.log(jsonPayload);
-  // var xhr = new XMLHttpRequest();
-  // xhr.open("POST", url, true);
-  // xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
-  // try {
-  //   xhr.onreadystatechange = function () {
-  //   };
-  //   xhr.send(jsonPayload);
-  // } catch (err) {
-  //   document.getElementById("registerResult").innerHTML = err.message;
-  // }
+//   // `#fName-${jsonObject.results[i].id}`
+//   var text = $(`#email-${jsonObject.results[index].id}`).val();
+//   console.log("text from " + text);
 
-}
+//   var jsonPayload = '{"id" : "' + idd + '", "firstName" : "' + jsonObject.results[index].firstName +  '", "lastName" : "' + jsonObject.results[index].lastName + '", "phoneNumber" : "' + jsonObject.results[index].phoneNumber + '", "email" : "' + jsonObject.results[index].email + '", "userId" : "' + cookieId +'"}';
+//   var url = urlBase + "/EditContact." + extension;
+
+//   console.log(jsonPayload);
+//   var xhr = new XMLHttpRequest();
+//   xhr.open("POST", url, true);
+//   xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+//   try {
+//     xhr.onreadystatechange = function () {
+//     };
+//     xhr.send(jsonPayload);
+//   } catch (err) {
+//     document.getElementById("registerResult").innerHTML = err.message;
+//   }
+
+// }
 
 function deleteTest(index) {
   var testid = index;
@@ -415,7 +490,7 @@ function deleteTest(index) {
     } else if (tokens[0] == "lastName") {
       lastName = tokens[1];
     } else if (tokens[0] == "userId") {
-      var cookieId = parseInt(tokens[1].trim());
+      cookieId = parseInt(tokens[1].trim());
     }
   }
 
@@ -439,7 +514,7 @@ function deleteTest(index) {
     return;
   }
 
-  doSearch();
+  doSearch()
 }
 
 function genTable(data) {
